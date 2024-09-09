@@ -8,12 +8,13 @@ output_file="$3"
 
 # Run BLAST
 blastn -query "$query_file" -subject "$subject_file" -task blastn-short -outfmt '6 qseqid sseqid pident length qlen' | \
-awk '$3 == 100 && $4 == $5 && $5 == 28' > "$output_file"
+awk '$3 > 30 && $4 >= 0.9*length($1)' > "$output_file"
 
 
 # Count the number of perfect matches & print to stdout
-perfect_match=$(wc -l < "$output_file")
-echo "Number of perfect matches: $perfect_match"
+echo "$(wc -l $outfile) matches found in $subject_file"
+
+
 
 
 
